@@ -1,11 +1,16 @@
 <?php
 
-function getInstance($modelName) {
-    $model = file_get_contents(__DIR__ . '/models/' . $modelName . '.model');
-    $data = file_get_contents(__DIR__ . '/data/' . $modelName . '.data');
+function getModel($modelName)
+{
+    $model = file_get_contents(__DIR__ . '//models//' . $modelName . '.model');
+    return preg_split("/\R/", $model);
+}
 
-    $model = explode("\n", $model);
-    $data = explode("\n", $data);
+function getInstance($modelName) {
+    $data = file_get_contents(__DIR__ . '//data//' . $modelName . '.data');
+
+    $model = getModel($modelName);
+    $data = explode(PHP_EOL, $data);
 
     $instance = [];
     
@@ -28,8 +33,7 @@ function getInstance($modelName) {
 }
 
 function saveInstance($modelName, $instance) {
-    $model = file_get_contents(__DIR__ . '/models/' . $modelName . '.model');
-    $model = explode("\n", $model);
+    $model = getModel($modelName);
 
     $data = [];
 
@@ -38,7 +42,7 @@ function saveInstance($modelName, $instance) {
     }
 
     return file_put_contents(
-        __DIR__ . '/data/' . $modelName . '.data',
-        implode("\n", $data)
+        __DIR__ . '//data//' . $modelName . '.data',
+        implode(PHP_EOL, $data)
     );
 }
